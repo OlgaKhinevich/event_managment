@@ -1,0 +1,347 @@
+.App {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr 2fr;
+      grid-template-columns: 1fr 2fr 2fr;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  height: 100vh;
+  width: 100vw;
+      grid-template-areas: "sidebar header messages" "sidebar content content" "sidebar content content" "sidebar content content";
+}
+
+.App .sidebar {
+  background-color: #F6F7FC;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 4;
+  -ms-grid-column: 1;
+  grid-area: sidebar;
+}
+
+.App .sidebar .sidebar-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.App .sidebar .sidebar-content .profile, .App .sidebar .sidebar-content .adding, .App .sidebar .sidebar-content .chart, .App .sidebar .sidebar-content .control {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 60%;
+  height: 130px;
+  background-color: #FCFCFE;
+  font-size: 13px;
+  border-radius: 15px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.App .sidebar .sidebar-content .profile div, .App .sidebar .sidebar-content .adding div, .App .sidebar .sidebar-content .chart div, .App .sidebar .sidebar-content .control div {
+  margin: 7px 0;
+  width: 30px;
+  height: 30px;
+  background-color: #9D9D9F;
+}
+
+.App .sidebar .sidebar-content .profile .adding-mask, .App .sidebar .sidebar-content .adding .adding-mask, .App .sidebar .sidebar-content .chart .adding-mask, .App .sidebar .sidebar-content .control .adding-mask {
+  -webkit-mask-image: url("./Components/Sidebar/adding-icon.svg");
+          mask-image: url("./Components/Sidebar/adding-icon.svg");
+}
+
+.App .sidebar .sidebar-content .profile .chart-mask, .App .sidebar .sidebar-content .adding .chart-mask, .App .sidebar .sidebar-content .chart .chart-mask, .App .sidebar .sidebar-content .control .chart-mask {
+  -webkit-mask-image: url("./Components/Sidebar/chart-icon.svg");
+          mask-image: url("./Components/Sidebar/chart-icon.svg");
+}
+
+.App .sidebar .sidebar-content .profile .control-mask, .App .sidebar .sidebar-content .adding .control-mask, .App .sidebar .sidebar-content .chart .control-mask, .App .sidebar .sidebar-content .control .control-mask {
+  height: 37px;
+  -webkit-mask-image: url("./Components/Sidebar/control-icon.svg");
+          mask-image: url("./Components/Sidebar/control-icon.svg");
+}
+
+.App .sidebar .sidebar-content .profile a, .App .sidebar .sidebar-content .adding a, .App .sidebar .sidebar-content .chart a, .App .sidebar .sidebar-content .control a {
+  text-decoration: none;
+  color: #9D9D9F;
+}
+
+.App .sidebar .sidebar-content .active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 60%;
+  height: 130px;
+  background: -webkit-gradient(linear, right top, left top, from(#FC858B), to(#F87C96));
+  background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
+  font-size: 13px;
+  border-radius: 15px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-shadow: -1px 6px 25px 0px rgba(151, 53, 80, 0.51);
+          box-shadow: -1px 6px 25px 0px rgba(151, 53, 80, 0.51);
+}
+
+.App .sidebar .sidebar-content .active div {
+  margin: 7px 0;
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff;
+}
+
+.App .sidebar .sidebar-content .active .adding-mask {
+  -webkit-mask-image: url("./Components/Sidebar/adding-icon.svg");
+          mask-image: url("./Components/Sidebar/adding-icon.svg");
+}
+
+.App .sidebar .sidebar-content .active .chart-mask {
+  -webkit-mask-image: url("./Components/Sidebar/chart-icon.svg");
+          mask-image: url("./Components/Sidebar/chart-icon.svg");
+}
+
+.App .sidebar .sidebar-content .active .control-mask {
+  height: 37px;
+  -webkit-mask-image: url("./Components/Sidebar/control-icon.svg");
+          mask-image: url("./Components/Sidebar/control-icon.svg");
+}
+
+.App .sidebar .sidebar-content .active a {
+  text-decoration: none;
+  color: white;
+}
+
+.App .header {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: header;
+  background-color: green;
+  height: 100px;
+}
+
+.App .messages {
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
+  grid-area: messages;
+}
+
+.App .main {
+  background-color: #ffffff;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 3;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 2;
+  grid-area: content;
+  color: #818181;
+  /*.chart-container {
+            background-color: blue;
+            margin: 20px auto;
+            height: 550px;
+            width: 900px;
+            overflow: visible;
+            .svg {
+                width:800px;
+                height:400px;
+                overflow: visible;
+                position:absolute;
+            } 
+            .tag {
+                color: white;
+                background: #FA283D;
+                width: 150px;
+                position: absolute;
+                display: none;
+                padding:3px 6px;
+                margin-left: -80px;
+                font-size: 11px;
+            }
+    }*/
+}
+
+.App .main .adding-content {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+      grid-template-areas: "form1 form2";
+  height: 100%;
+}
+
+.App .main .adding-content .adding-main {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: form1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0 20px;
+}
+
+.App .main .adding-content .adding-main input, .App .main .adding-content .adding-main select {
+  margin: 15px 10px;
+  width: 250px;
+  height: 30px;
+  border: 1px solid #9D9D9F;
+  border-radius: 7px;
+  color: #9D9D9F;
+}
+
+.App .main .adding-content .adding-main input[type="time"] {
+  width: 70px;
+}
+
+.App .main .adding-content .adding-main input[type="date"] {
+  width: 125px;
+}
+
+.App .main .adding-content .adding-steps {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: form2;
+}
+
+.App .main .adding-content .adding-steps .step {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0 20px;
+}
+
+.App .main .adding-content .adding-steps .step input, .App .main .adding-content .adding-steps .step select {
+  margin: 7px 10px;
+  width: 250px;
+  height: 30px;
+  border: 1px solid #9D9D9F;
+  border-radius: 7px;
+  color: #9D9D9F;
+}
+
+.App .main .adding-content .adding-steps .step input[type="date"] {
+  width: 125px;
+}
+
+.App .main .adding-content .adding-steps button {
+  margin-left: 20px;
+  background: -webkit-gradient(linear, right top, left top, from(#FC858B), to(#F87C96));
+  background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
+  -webkit-box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+          box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+  border: none;
+  height: 40px;
+  width: 120px;
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.App .main .adding-content .adding-btn {
+  grid-area: button;
+  margin-top: 15px;
+  background: -webkit-gradient(linear, right top, left top, from(#FC858B), to(#F87C96));
+  background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
+  -webkit-box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+          box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+  border: none;
+  height: 45px;
+  width: 200px;
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.App .authorization {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.App .authorization input {
+  width: 300px;
+  height: 30px;
+  margin-bottom: 12px;
+  border: 0.8px solid #9D9D9F;
+  border-radius: 7px;
+}
+
+.App .authorization input::-webkit-input-placeholder {
+  padding-left: 7px;
+  color: #9D9D9F;
+  font-size: 12px;
+}
+
+.App .authorization button {
+  background: -webkit-gradient(linear, right top, left top, from(#FC858B), to(#F87C96));
+  background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
+  -webkit-box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+          box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+  border: none;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 180px;
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.App .authorization h2 {
+  letter-spacing: 0.05em;
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+
+.App .authorization .links {
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 400;
+  color: #9D9D9F;
+}
+
+.App .authorization .hidden {
+  display: none;
+}
+/*# sourceMappingURL=App.css.map */
