@@ -6,7 +6,13 @@ class Auth extends Component {
         super(props);
 
         this.state = {
-            auth_mode: "signin"
+            auth_mode: "signin",
+            emailValue: "",
+            surnameValue: "",
+            nameValue: "",
+            patronimycValue: "",
+            passwordValue: "",
+            reppassword: ""
         }
     }
 
@@ -26,20 +32,73 @@ class Auth extends Component {
         setFullscreenMode(false);
     }
 
+    onEmailInput=(e)=>{
+        const value = e.target.value;
+        this.setState({
+            emailValue: value
+        });
+    }
+
+    onPasswordInput=(e)=>{
+        const value = e.target.value;
+        this.setState({
+            passwordValue: value
+        });
+    }
+
+    onSurnameInput=(e)=>{
+        const value = e.target.value;
+        this.setState({
+           surnameValue: value
+        });
+    }
+
+    onNameInput=(e)=>{
+        const value = e.target.value;
+        this.setState({
+           nameValue: value
+        });
+    }
+
+    onPatrInput=(e)=>{
+        const value = e.target.value;
+        this.setState({
+           patronimycValue: value
+        });
+    }
+
+    onRepeatPassInput=(e)=>{
+        const value = e.target.value;
+        this.setState({
+           reppassword: value
+        });
+    }
+
+    onSigninClick = ()=>{
+        socket.once("$login", (status)=>{
+            if(status) {
+                alert("Вход прошел успешно!");
+                return;
+            } alert("Ошибка при входе!");
+        });
+        socket.emit("login", {email: this.state.emailValue.trim(), password: this.state.passwordValue.trim()});
+    }
+
+    
     render() {
-    const {setAuthMode, auth_mode} = this.state;
+    const {auth_mode} = this.state;
       return (
             <Fragment>
             <div className="authorization">
                 <h2 className={auth_mode==="signin" ? "": "hidden"}>ВХОД</h2>
                 <h2 className={auth_mode==="signup" ? "": "hidden"}>РЕГИСТРАЦИЯ</h2>
-                <input type="text" placeholder="E-mail"></input>
-                <input type="text" placeholder="Фамилия" className={auth_mode==="signup" ? "": "hidden"}></input>
-                <input type="text" placeholder="Имя" className={auth_mode==="signup" ? "": "hidden"}></input>
-                <input type="text" placeholder="Отчество" className={auth_mode==="signup" ? "": "hidden"}></input>
-                <input type="text" placeholder="Пароль"></input>
-                <input type="text" placeholder="Повторите пароль" className={auth_mode==="signup" ? "": "hidden"}></input>
-                <button className={auth_mode==="signin" ? "": "hidden"}>Войти</button>
+                <input type="text" placeholder="E-mail" value={this.state.emailValue} onInput={this.onEmailInput}></input>
+                <input type="text" placeholder="Фамилия" className={auth_mode==="signup" ? "": "hidden"} value={this.state.surnameValue} onInput={this.onSurnameInput}></input>
+                <input type="text" placeholder="Имя" className={auth_mode==="signup" ? "": "hidden"} value={this.state.nameValue} onInput={this.onNameInput}></input>
+                <input type="text" placeholder="Отчество" className={auth_mode==="signup" ? "": "hidden"} value={this.state.patronimycValue} onInput={this.onPatrInput}></input>
+                <input type="text" placeholder="Пароль" value={this.state.passwordlValue} onInput={this.onPasswordInput}></input>
+                <input type="text" placeholder="Повторите пароль" className={auth_mode==="signup" ? "": "hidden"} value={this.state.reppassword} onInput={this.onRepeatPassInput}></input>
+                <button className={auth_mode==="signin" ? "": "hidden"} onClick={this.onSigninClick}>Войти</button>
                 <button className={auth_mode==="signup" ? "": "hidden"}>Зарегистрироваться</button>
                 <div className={auth_mode==="signin" ? "links-container": "hidden"}>
                     <Link to="/#" onClick={()=>this.setAuthMode("signup")} className="links">Зарегистрироваться</Link>
