@@ -93,7 +93,13 @@ class Auth extends Component {
                 return;
             } alert("Ошибка при добавлении пользователя!");
         });
-        socket.emit("addUser", {email: this.state.emailValue, surname: this.state.surnameValue, name: this.state.nameValue, patronymic: this.state.patronymicValue, password: this.state.passwordValue});
+        socket.emit("addUser", {
+            email: this.state.emailValue, 
+            surname: this.state.surnameValue, 
+            name: this.state.nameValue, 
+            patronymic: this.state.patronymicValue, 
+            password: this.state.passwordValue
+        });
     }
     
     render() {

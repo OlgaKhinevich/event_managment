@@ -1,31 +1,20 @@
 import React from 'react';
+import Step from '../Step/Step';
+import socket from "../../connection"; 
 
-/*let AddStep = () => {
-  <div className="step">
-    <label>
-      Название этапа:
-      <input type="text" value={this.state.value} onChange={this.handleChange}/>
-    </label>
-    <label>
-      Ответственное лицо:
-      <input type="text" value={this.state.value} onChange={this.handleChange}/>
-    </label>
-    <label>
-      Срок выполнения:
-      <input type="date" value={this.state.value} onChange={this.handleChange}/>
-    </label>
-  </div>
-}*/
 
 class Adding extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventTypeValue: '',
-      eventFormatValue: '',
+      eventTypeValue: 'Учебное',
+      eventFormatValue: 'Конференция',
       eventNameValue: '',
       eventDateValue: '',
-
+      eventTimeValue: '',
+      eventPlaceValue: '',
+      prepDateValue: '',
+      stepCount: 0
     };
   }
 
@@ -80,7 +69,36 @@ class Adding extends React.Component {
         prepDateValue: value
     });
   }
-  
+
+  onAddStepClick = () => {
+    this.setState({
+      stepCount: this.state.stepCount + 1
+    });
+  }
+
+  onDeleteStepClick = () => {
+    this.setState({
+      stepCount: this.state.stepCount - 1
+    });
+  }
+
+  onAddEventClick = () => {
+    socket.once("$addEvent", (status)=>{
+      if(status) {
+          alert("Мероприятие успешно добавлено!");
+          return;
+      } alert("Ошибка при добавлении мероприятия!");
+  });
+  socket.emit("addEvent", {
+    type: this.state.eventTypeValue,
+    format: this.state.eventFormatValue,
+    name: this.state.eventNameValue, 
+    date: this.state.eventDateValue, 
+    time: this.state.eventTimeValue,
+    place: this.state.eventPlaceValue,
+    prep_date: this.state.prepDateValue
+    });
+  }
 
   render() {
       return (
@@ -98,15 +116,15 @@ class Adding extends React.Component {
             <label>
             Выберите формат проведения:
               <select value={this.state.eventFormatValue} onChange={this.onEventFormatChange}>
-                <option value="grapefruit">Конференция</option>
-                <option value="lime">Конкурс</option>
-                <option value="coconut">Заседание</option>
-                <option value="mango">Праздничный концерт</option>
-                <option value="mango">День открытых дверей</option>
-                <option value="mango">Семинар</option>
-                <option value="mango">Круглый стол</option>
-                <option value="mango">Фестиваль</option>
-                <option value="mango">Выставка</option>
+                <option value="Конференция">Конференция</option>
+                <option value="Конкурс">Конкурс</option>
+                <option value="Заседание">Заседание</option>
+                <option value="Праздничный концерт">Праздничный концерт</option>
+                <option value="День открытых дверей">День открытых дверей</option>
+                <option value="Семинар">Семинар</option>
+                <option value="Круглый стол">Круглый стол</option>
+                <option value="Фестиваль">Фестиваль</option>
+                <option value="Выставка">Выставка</option>
               </select>
             </label>
             <label>
@@ -129,24 +147,13 @@ class Adding extends React.Component {
               Дата начала подготовки к мероприятию:
               <input type="date" value={this.state.prepDateValue} onChange={this.onPrepDateInput}/>
             </label>
-            <button className="adding-btn">Добавить мероприятие</button>
+            <button className="adding-btn" onClick={this.onAddEventClick}>Добавить мероприятие</button>
           </div>
           <div className="adding-steps">
-            <div className="step">
-              <label>
-                Название этапа:
-                <input type="text" value={this.state.value} onChange={this.handleChange}/>
-              </label>
-              <label>
-                Ответственное лицо:
-                <input type="text" value={this.state.value} onChange={this.handleChange}/>
-              </label>
-              <label>
-                Срок выполнения:
-                <input type="date" value={this.state.value} onChange={this.handleChange}/>
-              </label>
-            </div>
-            <button onClick="">Добавить этап</button>
+            <Step />
+            {[...Array(this.state.stepCount)].map(() => <Step />)}
+            <button onClick={this.onAddStepClick}>Добавить этап</button>
+            <button onClick={this.onDeleteStepClick}>Удалить этап</button>
           </div>
         </div>
       );

@@ -53,6 +53,28 @@ io.on("connection", function(socket){
         }
     });
 
+    // добавление нового пользователя при регистрации
+    socket.on("addEvent", async(event)=>{
+        try {
+            const {type, format, name, date, time, place, prep_date} = event;
+            // Запрос к БД
+            let sqlQuery = `INSERT INTO events VALUES("${type}", "${format}", "${name}", "${date}", "${time}", "${place}", "${prep_date}")`;
+            
+            // Проверка на наличие такого пользователя в БД
+            let isExist= (await getSomeEvent(name, date))[0];
+            if(isExist.length) throw new Error("Такое мероприятие уже добавлено!");
+            let result = await connection.execute(sqlQuery);
+            if (result[0].warningStatus===0) {
+                socket.emit("$addEvent", true);
+                return;
+            }
+            socket.emit("$addEvent", false);
+        }
+        catch(err) {
+            console.log(err);
+        }
+    });
+
     // проверка на наличие пользователя в БД при входе
     socket.on("login", async(user)=>{
         try {
@@ -73,6 +95,11 @@ io.on("connection", function(socket){
 
     async function getSomeUser(email) {
         let sqlQuery = `SELECT * FROM users WHERE email="${email}"`;
+        return await connection.execute(sqlQuery);
+    }
+
+    async function getSomeEvent(name, date) {
+        let sqlQuery = `SELECT * FROM events WHERE name="${name}" AND date="${date}"`;
         return await connection.execute(sqlQuery);
     }
 
