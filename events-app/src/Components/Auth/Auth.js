@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from "react";
 import {Link} from "react-router-dom";
+import socket from "../../connection"; 
 
 class Auth extends Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class Auth extends Component {
             emailValue: "",
             surnameValue: "",
             nameValue: "",
-            patronimycValue: "",
+            patronymicValue: "",
             passwordValue: "",
             reppassword: ""
         }
@@ -63,7 +64,7 @@ class Auth extends Component {
     onPatrInput=(e)=>{
         const value = e.target.value;
         this.setState({
-           patronimycValue: value
+           patronymicValue: value
         });
     }
 
@@ -78,12 +79,22 @@ class Auth extends Component {
         socket.once("$login", (status)=>{
             if(status) {
                 alert("Вход прошел успешно!");
+                this.props.history.push('/chart');
                 return;
             } alert("Ошибка при входе!");
         });
-        socket.emit("login", {email: this.state.emailValue.trim(), password: this.state.passwordValue.trim()});
+        socket.emit("login", {email: this.state.emailValue, password: this.state.passwordValue});
     }
 
+    onSignupClick = ()=>{
+        socket.once("$addUser", (status)=>{
+            if(status) {
+                alert("Пользователь успешно добавлен!");
+                return;
+            } alert("Ошибка при добавлении пользователя!");
+        });
+        socket.emit("addUser", {email: this.state.emailValue, surname: this.state.surnameValue, name: this.state.nameValue, patronymic: this.state.patronymicValue, password: this.state.passwordValue});
+    }
     
     render() {
     const {auth_mode} = this.state;
@@ -95,11 +106,11 @@ class Auth extends Component {
                 <input type="text" placeholder="E-mail" value={this.state.emailValue} onInput={this.onEmailInput}></input>
                 <input type="text" placeholder="Фамилия" className={auth_mode==="signup" ? "": "hidden"} value={this.state.surnameValue} onInput={this.onSurnameInput}></input>
                 <input type="text" placeholder="Имя" className={auth_mode==="signup" ? "": "hidden"} value={this.state.nameValue} onInput={this.onNameInput}></input>
-                <input type="text" placeholder="Отчество" className={auth_mode==="signup" ? "": "hidden"} value={this.state.patronimycValue} onInput={this.onPatrInput}></input>
+                <input type="text" placeholder="Отчество" className={auth_mode==="signup" ? "": "hidden"} value={this.state.patronymicValue} onInput={this.onPatrInput}></input>
                 <input type="text" placeholder="Пароль" value={this.state.passwordlValue} onInput={this.onPasswordInput}></input>
                 <input type="text" placeholder="Повторите пароль" className={auth_mode==="signup" ? "": "hidden"} value={this.state.reppassword} onInput={this.onRepeatPassInput}></input>
                 <button className={auth_mode==="signin" ? "": "hidden"} onClick={this.onSigninClick}>Войти</button>
-                <button className={auth_mode==="signup" ? "": "hidden"}>Зарегистрироваться</button>
+                <button className={auth_mode==="signup" ? "": "hidden"} onClick={this.onSignupClick}>Зарегистрироваться</button>
                 <div className={auth_mode==="signin" ? "links-container": "hidden"}>
                     <Link to="/#" onClick={()=>this.setAuthMode("signup")} className="links">Зарегистрироваться</Link>
                 </div>

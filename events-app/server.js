@@ -70,6 +70,12 @@ io.on("connection", function(socket){
             socket.emit("$login", false);
         }
     });
+
+    async function getSomeUser(email) {
+        let sqlQuery = `SELECT * FROM users WHERE email="${email}"`;
+        return await connection.execute(sqlQuery);
+    }
+
 });
 
 http.listen(3000, ()=>{

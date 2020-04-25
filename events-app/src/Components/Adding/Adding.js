@@ -20,20 +20,67 @@ import React from 'react';
 class Adding extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {
+      eventTypeValue: '',
+      eventFormatValue: '',
+      eventNameValue: '',
+      eventDateValue: '',
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    };
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  onEventTypeChange=(e)=>{
+    const value = e.target.value;
+    this.setState({
+        eventTypeValue: value
+    });
+    console.log(this.state.eventTypeValue);
   }
 
-  handleSubmit(event) {
-    alert('Отправленное имя: ' + this.state.value);
-    event.preventDefault();
+  onEventFormatChange=(e)=>{
+    const value = e.target.value;
+    this.setState({
+        eventFormatValue: value
+    });
+    console.log(this.state.eventFormatValue);
   }
+
+  onEventNameInput=(e)=>{
+    const value = e.target.value;
+    this.setState({
+        eventNameValue: value
+    });
+    console.log(this.state.eventNameValue);
+  }
+  
+  onEventDateInput=(e)=>{
+    const value = e.target.value;
+    this.setState({
+        eventDateValue: value
+    });
+  }
+
+  onEventTimeInput=(e)=>{
+    const value = e.target.value;
+    this.setState({
+        eventTimeValue: value
+    });
+  }
+
+  onEventPlaceInput=(e)=>{
+    const value = e.target.value;
+    this.setState({
+        eventPlaceValue: value
+    });
+  }
+
+  onPrepDateInput=(e)=>{
+    const value = e.target.value;
+    this.setState({
+        prepDateValue: value
+    });
+  }
+  
 
   render() {
       return (
@@ -41,16 +88,16 @@ class Adding extends React.Component {
           <div className="adding-main">
             <label>
             Выберите тип мероприятия:
-              <select value={this.state.value} onChange={this.handleChange}>
-                <option value="grapefruit">Научное</option>
-                <option value="lime">Учебное</option>
-                <option value="coconut">Профориентационное</option>
-                <option value="mango">Другое</option>
+              <select value={this.state.eventTypeValue} onChange={this.onEventTypeChange}>
+                <option value="Научное">Научное</option>
+                <option value="Учебное">Учебное</option>
+                <option value="Профориентационное">Профориентационное</option>
+                <option value="Другое">Другое</option>
               </select>
             </label>
             <label>
             Выберите формат проведения:
-              <select value={this.state.value} onChange={this.handleChange}>
+              <select value={this.state.eventFormatValue} onChange={this.onEventFormatChange}>
                 <option value="grapefruit">Конференция</option>
                 <option value="lime">Конкурс</option>
                 <option value="coconut">Заседание</option>
@@ -64,27 +111,23 @@ class Adding extends React.Component {
             </label>
             <label>
               Название мероприятия:
-              <input type="text" value={this.state.value} onChange={this.handleChange}/>
+              <input type="text" value={this.state.eventNameValue} onInput={this.onEventNameInput}/>
             </label>
             <label>
               Дата проведения мероприятия:
-              <input type="date" value={this.state.value} onChange={this.handleChange}/>
+              <input type="date" value={this.state.eventDateValue} onChange={this.onEventDateInput}/>
             </label>
             <label>
-              Время начала проведения мероприятия:
-              <input type="time" value={this.state.value} onChange={this.handleChange}/>
-            </label>
-            <label>
-              Время окончания проведения мероприятия:
-              <input type="time" value={this.state.value} onChange={this.handleChange}/>
+              Время проведения мероприятия:
+              <input type="time" value={this.state.eventTimeValue} onChange={this.onEventTimeInput}/>
             </label>
             <label>
               Место проведения мероприятия:
-              <input type="text" value={this.state.value} onChange={this.handleChange}/>
+              <input type="text" value={this.state.eventPlaceValue} onChange={this.onEventPlaceInput}/>
             </label>
             <label>
               Дата начала подготовки к мероприятию:
-              <input type="date" value={this.state.value} onChange={this.handleChange}/>
+              <input type="date" value={this.state.prepDateValue} onChange={this.onPrepDateInput}/>
             </label>
             <button className="adding-btn">Добавить мероприятие</button>
           </div>
