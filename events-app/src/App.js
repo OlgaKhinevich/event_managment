@@ -1,14 +1,13 @@
 import React from 'react';
 import Sidebar from './Components/Sidebar/Sidebar';
 import Adding from './Components/Adding/Adding';
-import Chart from './Components/Chart/Chart';
 import Control from './Components/Control/Control';
 import Header from './Components/Header/Header';
 import Messages from './Components/Messages/Messages';
 import Auth from "./Components/Auth/Auth";
+import Chart from './Components/Chart/Chart';
 import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
 
 class App extends React.Component {
   constructor(props) {
@@ -38,12 +37,10 @@ class App extends React.Component {
           <Route exact path="/" render={()=><Auth setFullscreenMode={this.setFullscreenMode}/>}/>
           <Route path="/add" component={Adding} />
           <Route path="/chart" component={Chart} />
-          <Route path="/control" component={Control} />*/}
-        </Switch>
-        </div>
-        
+          <Route path="/control" component={Control} />
+          </Switch>
+        </div>    
       </div>
-
       </BrowserRouter>
     );
   }

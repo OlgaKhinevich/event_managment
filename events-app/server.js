@@ -56,15 +56,20 @@ io.on("connection", function(socket){
     // добавление нового пользователя при регистрации
     socket.on("addEvent", async(event)=>{
         try {
-            const {type, format, name, date, time, place, prep_date} = event;
+            const {type, format, name, date, time, place, prep_date, step_name, person, step_date} = event;
+            console.log (step_name, person, step_date);
             // Запрос к БД
-            let sqlQuery = `INSERT INTO events VALUES("${type}", "${format}", "${name}", "${date}", "${time}", "${place}", "${prep_date}")`;
-            
+            let sqlQuery1 = `INSERT INTO events VALUES("${type}", "${format}", "${name}", "${date}", "${time}", "${place}", "${prep_date}")`;
+            let sqlQuery2 = `INSERT INTO steps VALUES("${step_name}", "${person}", "${step_date}")`;
             // Проверка на наличие такого пользователя в БД
             let isExist= (await getSomeEvent(name, date))[0];
             if(isExist.length) throw new Error("Такое мероприятие уже добавлено!");
-            let result = await connection.execute(sqlQuery);
-            if (result[0].warningStatus===0) {
+            let result2 = '';
+            if(!isExist.length) {
+                result2 = await connection.execute(sqlQuery2);
+            }
+            let result1 = await connection.execute(sqlQuery1);
+            if (result1[0].warningStatus===0 && result2[0].warningStatus===0) {
                 socket.emit("$addEvent", true);
                 return;
             }
@@ -93,14 +98,30 @@ io.on("connection", function(socket){
         }
     });
 
+    // получение информации о событии
+    socket.on("getEventInfo", async ()=>{
+        try{
+        let sqlQuery = `SELECT c.name, c.date FROM events;`;
+
+        let [eventInfo] = await connection.execute(sqlQuery);
+           
+        socket.emit("$getEventInfo", eventInfo);
+
+        }
+        catch(err){
+          console.log(err);
+          socket.emit("$getEventInfo", false);
+        }
+    });
+
     async function getSomeUser(email) {
         let sqlQuery = `SELECT * FROM users WHERE email="${email}"`;
         return await connection.execute(sqlQuery);
     }
 
     async function getSomeEvent(name, date) {
-        let sqlQuery = `SELECT * FROM events WHERE name="${name}" AND date="${date}"`;
-        return await connection.execute(sqlQuery);
+        let sqlQuery1 = `SELECT * FROM events WHERE name="${name}" AND date="${date}"`;
+        return await connection.execute(sqlQuery1);
     }
 
 });

@@ -14,8 +14,37 @@ class Adding extends React.Component {
       eventTimeValue: '',
       eventPlaceValue: '',
       prepDateValue: '',
-      stepCount: 0
+      stepCount: 0,
+      stepNameValue: '',
+      personValue: '',
+      stepDateValue: '',
+      stepId: 0
     };
+  }
+
+  componentDidMount(){
+    
+    
+  }
+
+  onSaveStep() {
+
+    let array = [
+      {
+        id: 1,
+        ip: 2
+      }
+      
+    ];
+    
+    window.localStorage.setItem("array", JSON.stringify(array));
+    array = JSON.parse(window.localStorage.getItem("array"));
+  
+    console.log(typeof array); 
+    console.log(array); 
+    
+  //localStorage.setItem('array', JSON.stringify(array));
+   
   }
 
   onEventTypeChange=(e)=>{
@@ -38,8 +67,7 @@ class Adding extends React.Component {
     const value = e.target.value;
     this.setState({
         eventNameValue: value
-    });
-    console.log(this.state.eventNameValue);
+    }); 
   }
   
   onEventDateInput=(e)=>{
@@ -82,6 +110,28 @@ class Adding extends React.Component {
     });
   }
 
+  onStepNameInput = (e) => {
+    const value = e.target.value;
+    this.setState({
+        stepNameValue: value
+    });
+  }
+
+  onPersonInput = (e) => {
+    const value = e.target.value;
+    this.setState({
+        personValue: value
+    });
+  }
+
+  onStepDateInput = (e) => {
+    const value = e.target.value;
+    this.setState({
+      stepDateValue: value
+    });
+    
+  }
+
   onAddEventClick = () => {
     socket.once("$addEvent", (status)=>{
       if(status) {
@@ -89,6 +139,7 @@ class Adding extends React.Component {
           return;
       } alert("Ошибка при добавлении мероприятия!");
   });
+
   socket.emit("addEvent", {
     type: this.state.eventTypeValue,
     format: this.state.eventFormatValue,
@@ -96,11 +147,15 @@ class Adding extends React.Component {
     date: this.state.eventDateValue, 
     time: this.state.eventTimeValue,
     place: this.state.eventPlaceValue,
-    prep_date: this.state.prepDateValue
+    prep_date: this.state.prepDateValue,
+    step_name: localStorage["stepName"],
+    person: localStorage["person"],
+    step_date: localStorage["stepDate"]
     });
   }
 
   render() {
+    const {stepNameValue, personValue, stepDateValue, stepId} = this.state; 
       return (
         <div className="adding-content">
           <div className="adding-main">
@@ -150,9 +205,16 @@ class Adding extends React.Component {
             <button className="adding-btn" onClick={this.onAddEventClick}>Добавить мероприятие</button>
           </div>
           <div className="adding-steps">
-            <Step />
-            {[...Array(this.state.stepCount)].map(() => <Step />)}
+            <Step 
+            onStepNameInput={this.onStepNameInput} onPersonInput={this.onPersonInput} onStepDateInput={this.onStepDateInput}
+            stepNameValue={stepNameValue} personValue={personValue} stepDateValue={stepDateValue} key={stepId}
+             />
+            {[...Array(this.state.stepCount)].map(() => <Step 
+            onStepNameInput={this.onStepNameInput} onPersonInput={this.onPersonInput} onStepDateInput={this.onStepDateInput}
+            stepNameValue={stepNameValue} personValue={personValue} stepDateValue={stepDateValue} key={stepId}
+            />)}
             <button onClick={this.onAddStepClick}>Добавить этап</button>
+            <button onClick={this.onSaveStep}>Сохранить</button>
             <button onClick={this.onDeleteStepClick}>Удалить этап</button>
           </div>
         </div>
