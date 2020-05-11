@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import {Link} from "react-router-dom";
 import socket from "../../connection"; 
+import image from "./auth.png";
 
 class Auth extends Component {
     constructor(props) {
@@ -107,6 +108,7 @@ class Auth extends Component {
       return (
             <Fragment>
             <div className="authorization">
+                <img src={image} alt="image"></img>
                 <h2 className={auth_mode==="signin" ? "": "hidden"}>ВХОД</h2>
                 <h2 className={auth_mode==="signup" ? "": "hidden"}>РЕГИСТРАЦИЯ</h2>
                 <input type="text" placeholder="E-mail" value={this.state.emailValue} onInput={this.onEmailInput}></input>

@@ -5,7 +5,7 @@
     height: 100vh;
     width: 100vw;
     grid-template-areas: 
-    "sidebar header messages"
+    "sidebar content content"
     "sidebar content content"
     "sidebar content content"
     "sidebar content content"
@@ -76,16 +76,8 @@
             }
         }
     }
-    .header {
-        grid-area: header; 
-        background-color: green; 
-        height: 100px;
-    }
-    .messages {
-        grid-area: messages;
-    }
     .main {
-        background-color: #ffffff;
+        background-color: #FCFCFE;
         grid-area: content;
         color: rgb(129, 129, 129);
         .adding-content {
@@ -93,18 +85,23 @@
             grid-template-columns: 1fr 1fr;
             grid-template-rows: auto;
             grid-template-areas: 
+            "header header"
             "form1 form2";
             height: 100%;
+            h2 {
+                grid-area: header;
+                margin: 30px 0 10px 30px;
+            }
             .adding-main {
                 grid-area: form1;
                 display: flex;  
                 flex-direction: column;
-                margin: 0 20px;
+                margin: 0 30px;
                 input, select {
                     margin: 15px 10px;
                     width: 250px;
                     height: 30px;
-                    border: 1px solid #9D9D9F;
+                    border: 1px solid rgb(206, 206, 206);
                     border-radius: 7px;
                     color: #9D9D9F;
                 }
@@ -113,15 +110,20 @@
             }
             .adding-steps {
                 grid-area: form2;
+                height: 450px;
+                overflow-y: scroll; 
                 .step {
                 display: flex;  
                 flex-direction: column;
-                margin: 0 20px;
+                border: 1px solid #9D9D9F;
+                border-radius: 15px;
+                margin: 10px 20px;
+                padding: 20px;
                 input, select {
                     margin: 7px 10px;
                     width: 250px;
                     height: 30px;
-                    border: 1px solid #9D9D9F;
+                    border: 1px solid rgb(206, 206, 206);
                     border-radius: 7px;
                     color: #9D9D9F;
                 }
@@ -136,6 +138,7 @@
                     width: 120px;
                     color: #ffffff;
                     border-radius: 10px;
+                    margin-top: 10px;
                 }
             }
             .adding-btn {
@@ -159,17 +162,42 @@
         }
         .control-content {
             .control-event {
-                display: flex;
-                background-color: #FCFCFE;
-            }
+                margin: 10px 20px;
+                border: 1px solid rgb(206, 206, 206);
+                border-radius: 10px;
+                .control-info {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    cursor: pointer;
+                    background-color: #F6F7FC;
+                    align-items: center;
+                    height: 50px;
+                    button {margin: 0 10px;}
+                    .event-name {margin-left: 20px;}
+                    &:hover {
+                        background-color: rgb(255, 204, 207);
+                        
+                    }
+                }
+                .control-steps {
+                    display: none;
+                    .open {display: block;}
+                }
+            }   
+
         }            
     }
     .authorization {
         height: 100vh;
+        width: 100vw;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        img {
+            height: 45vh;
+        }
         input {
             width: 300px;
             height: 30px;

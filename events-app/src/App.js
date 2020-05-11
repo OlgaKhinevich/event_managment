@@ -3,7 +3,6 @@ import Sidebar from './Components/Sidebar/Sidebar';
 import Adding from './Components/Adding/Adding';
 import Control from './Components/Control/Control';
 import Header from './Components/Header/Header';
-import Messages from './Components/Messages/Messages';
 import Auth from "./Components/Auth/Auth";
 import Chart from './Components/Chart/Chart';
 import './App.css';
@@ -14,7 +13,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      isFullscreenComponent: false
+      isFullscreenComponent: false,
+      heading: ""
     }
   }
 
@@ -24,21 +24,27 @@ class App extends React.Component {
     })
   }
 
+  setHeading = (name) => {
+    this.setState({
+      heading: name
+    })
+    console.log(this.state.heading);
+  }
+
   render() {
-    const {isFullscreenComponent} = this.state;
+    const {isFullscreenComponent, heading} = this.state;
     return (
       <BrowserRouter>
       <div className="App">
         {!isFullscreenComponent && <Sidebar/>}
-        {!isFullscreenComponent && <Header/>}
-        {!isFullscreenComponent && <Messages/>}
+        {!isFullscreenComponent && <Header heading={heading}/>}
+        <Route exact path="/" render={()=><Auth setFullscreenMode={this.setFullscreenMode}/>}/>
         <div className="main">
-        <Switch>
-          <Route exact path="/" render={()=><Auth setFullscreenMode={this.setFullscreenMode}/>}/>
-          <Route path="/add" component={Adding} />
-          <Route path="/chart" component={Chart} />
-          <Route path="/control" component={Control} />
-          </Switch>
+        <Switch> 
+          <Route path="/add" render={()=><Adding />} />
+          <Route path="/chart" render={()=><Chart />} />
+          <Route path="/control" render={()=><Control /> } />
+        </Switch>
         </div>    
       </div>
       </BrowserRouter>

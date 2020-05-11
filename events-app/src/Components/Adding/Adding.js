@@ -158,6 +158,7 @@ class Adding extends React.Component {
     const {stepNameValue, personValue, stepDateValue, stepId} = this.state; 
       return (
         <div className="adding-content">
+          <h2>Добавление мероприятия</h2>
           <div className="adding-main">
             <label>
             Выберите тип мероприятия:
