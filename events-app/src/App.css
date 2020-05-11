@@ -307,7 +307,7 @@
   display: none;
 }
 
-.App .main .control-content .control-event .control-steps .open {
+.App .main .control-content .control-event .control-steps.open {
   display: block;
 }
 

@@ -182,7 +182,7 @@
                 }
                 .control-steps {
                     display: none;
-                    .open {display: block;}
+                    &.open {display: block;}
                 }
             }   
 

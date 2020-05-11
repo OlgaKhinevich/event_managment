@@ -29,7 +29,6 @@ class Control extends React.Component {
 
   }
 
-  
   onStepsOpen = (index)=>{
     console.log(index);
     this.setState(this.state.events.map((event, i) => {
@@ -48,7 +47,7 @@ class Control extends React.Component {
       return (
         <div className="control-content">
           {events.map((event, i) => 
-            <Event event={event} steps={steps} index={i} onStepsOpen={this.onStepsOpen.bind(this, index)} />
+            <Event event={event} steps={steps} index={i} onStepsOpen={this.onStepsOpen.bind(this, i)} />
           )}
         </div> 
       )
