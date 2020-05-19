@@ -36,8 +36,7 @@ io.on("connection", function(socket){
         try {
             const {email, surname, name, patronymic, password} = user;
             // Запрос к БД
-            let sqlQuery = `INSERT INTO users VALUES("${email}", "${surname}","${name}", "${patronymic}", "${password}")`;
-            
+            let sqlQuery = `INSERT INTO users VALUES("${email}", "${surname}","${name}", "${patronymic}", "${password}")`; 
             // Проверка на наличие такого пользователя в БД
             let isExist= (await getSomeUser(email))[0];
             if(isExist.length) throw new Error("Такой пользователь уже существует!");
@@ -56,11 +55,9 @@ io.on("connection", function(socket){
     // добавление нового пользователя при регистрации
     socket.on("addEvent", async(event)=>{
         try {
-            const {type, format, name, date, time, place, prep_date, step_name, person, step_date} = event;
-            console.log (step_name, person, step_date);
-            // Запрос к БД
+            const {type, format, name, date, time, place, prep_date, /*step_name, person, step_date*/} = event;
             let sqlQuery1 = `INSERT INTO events VALUES("${type}", "${format}", "${name}", "${date}", "${time}", "${place}", "${prep_date}")`;
-            let sqlQuery2 = `INSERT INTO steps VALUES("${step_name}", "${person}", "${step_date}")`;
+            /*let sqlQuery2 = `INSERT INTO steps VALUES("${step_name}", "${person}", "${step_date}")`;*/
             // Проверка на наличие такого пользователя в БД
             let isExist= (await getSomeEvent(name, date))[0];
             if(isExist.length) throw new Error("Такое мероприятие уже добавлено!");
@@ -87,7 +84,6 @@ io.on("connection", function(socket){
             // Проверка на наличие пользователя в БД
             let isExist= (await getSomeUser(email))[0];
             if(isExist.length === 0) throw new Error("Такого пользователя нет в БД!");
-             
             let currentUser = isExist[0];
             if(currentUser.password !== password) throw new Error("Неправильный пароль!");
             socket.emit("$login",  currentUser.email);      
@@ -98,19 +94,30 @@ io.on("connection", function(socket){
         }
     });
 
-    // получение информации о событии
+    // получение информации о мероприятии
     socket.on("getEventInfo", async ()=>{
-        try{
-        let sqlQuery = `SELECT c.name, c.date FROM events;`;
-
+        try {
+        let sqlQuery = `SELECT name, date, percent, open FROM events`;
         let [eventInfo] = await connection.execute(sqlQuery);
-           
-        socket.emit("$getEventInfo", eventInfo);
-
+        socket.emit("$getEventInfo", eventInfo); 
         }
         catch(err){
           console.log(err);
           socket.emit("$getEventInfo", false);
+        }
+    });
+
+    socket.on("getStepsInfo", async (eventData)=>{
+        try {
+            const {eventName, eventDate} = eventData; 
+            let sqlQuery = `SELECT stepName, stepDate FROM steps WHERE eventName="${eventName}" AND eventDate="${eventDate}"`;
+            console.log(sqlQuery);
+            let [stepsInfo] = await connection.execute(sqlQuery);
+            socket.emit("$getStepsInfo", stepsInfo); 
+        }
+        catch(err){
+          console.log(err);
+          socket.emit("$getStepsInfo", false);
         }
     });
 

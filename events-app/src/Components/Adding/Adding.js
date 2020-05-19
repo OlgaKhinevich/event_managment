@@ -148,9 +148,9 @@ class Adding extends React.Component {
     time: this.state.eventTimeValue,
     place: this.state.eventPlaceValue,
     prep_date: this.state.prepDateValue,
-    step_name: localStorage["stepName"],
+    /*step_name: localStorage["stepName"],
     person: localStorage["person"],
-    step_date: localStorage["stepDate"]
+    step_date: localStorage["stepDate"]*/
     });
   }
 

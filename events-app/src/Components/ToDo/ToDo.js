@@ -1,10 +1,12 @@
 import React from 'react';
 
 const ToDo = ({step}) => {
+
   return (
         <div className="to-do" key={step.stepId}>
           <div>
-            {step.stepNameValue+'  '+step.stepDateValue}
+            {step.stepName+'  '+step.stepDate +'  '}
+            {step.isDone ? <p>Сделано</p> : <p>Не сделано</p>}
           </div>  
         </div>
       )
