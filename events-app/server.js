@@ -121,6 +121,19 @@ io.on("connection", function(socket){
         }
     });
 
+    // получение информации для графика мероприятий
+    socket.on("getChartData", async ()=>{
+        try {
+        let sqlQuery = `SELECT name, date, percent, prepDate FROM events`;
+        let [chartData] = await connection.execute(sqlQuery);
+        socket.emit("$getChartData", chartData); 
+        }
+        catch(err){
+          console.log(err);
+          socket.emit("$getChartData", false);
+        }
+    });
+
     async function getSomeUser(email) {
         let sqlQuery = `SELECT * FROM users WHERE email="${email}"`;
         return await connection.execute(sqlQuery);

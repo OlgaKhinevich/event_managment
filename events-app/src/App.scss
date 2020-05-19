@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .App {
     display: grid;
     grid-template-columns: 1fr 2fr 2fr;
@@ -131,26 +133,17 @@
                 }
                 button {
                     margin-left: 20px;
-                    background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
-                    box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
-                    border: none;
+                    @include button-style();
                     height: 40px;
                     width: 120px;
-                    color: #ffffff;
-                    border-radius: 10px;
-                    margin-top: 10px;
                 }
             }
             .adding-btn {
                 grid-area: button;
                 margin-top: 15px;
-                background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
-                box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
-                border: none;
+                @include button-style();
                 height: 45px;
                 width: 200px;
-                color: #ffffff;
-                border-radius: 10px;
             }
         }
         .chart-content {
@@ -164,17 +157,25 @@
             h2 {margin: 30px 0 30px 30px;}
             .control-event {
                 margin: 10px 20px;
-                border: 1px solid rgb(206, 206, 206);
                 border-radius: 10px;
                 .control-info {
                     display: flex;
                     flex-direction: row;
+                    border-radius: 10px;
                     justify-content: space-between;
                     cursor: pointer;
                     background-color: #F6F7FC;
                     align-items: center;
                     height: 50px;
-                    button {margin: 0 10px;}
+                    button {
+                        @include button-style();
+                        height: 30px;
+                        width: 120px;
+                        margin: 0 10px;
+                    }
+                    .delete-btn {
+                        width: 100px !important;
+                    }
                     .event-name {margin-left: 20px;}
                     &:hover {
                         background-color: rgb(255, 204, 207);
@@ -184,6 +185,24 @@
                 .control-steps {
                     display: none;
                     &.open {display: block;}
+                    .to-do {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: space-between;
+                            margin: 0 20px;
+                            height: 24px;
+                            .done {
+                                height: 24px;
+                                width: 24px;
+                                background-image: url('./Components/ToDo/done.svg');
+                            }
+                            .notDone {
+                                height: 24px;
+                                width: 24px;
+                                background-image: url('./Components/ToDo/notDone.svg');
+                            }
+                    }
                 }
             }   
 
@@ -213,17 +232,13 @@
         }
        
         button {
-            background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
-            box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
-            border: none;
+            @include button-style();
             height: 40px;
             font-size: 14px;
             font-weight: 400;
             margin-top: 10px;
             margin-bottom: 10px;
             width: 180px;
-            color: #ffffff;
-            border-radius: 10px;
         }
         h2 {
             letter-spacing: 0.05em;

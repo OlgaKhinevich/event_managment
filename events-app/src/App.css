@@ -237,11 +237,11 @@
   -webkit-box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
           box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
   border: none;
-  height: 40px;
-  width: 120px;
   color: #ffffff;
   border-radius: 10px;
   margin-top: 10px;
+  height: 40px;
+  width: 120px;
 }
 
 .App .main .adding-content .adding-btn {
@@ -252,10 +252,11 @@
   -webkit-box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
           box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
   border: none;
-  height: 45px;
-  width: 200px;
   color: #ffffff;
   border-radius: 10px;
+  margin-top: 10px;
+  height: 45px;
+  width: 200px;
 }
 
 .App .main .chart-content {
@@ -272,7 +273,6 @@
 
 .App .main .control-content .control-event {
   margin: 10px 20px;
-  border: 1px solid #cecece;
   border-radius: 10px;
 }
 
@@ -284,6 +284,7 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  border-radius: 10px;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -296,7 +297,21 @@
 }
 
 .App .main .control-content .control-event .control-info button {
+  background: -webkit-gradient(linear, right top, left top, from(#FC858B), to(#F87C96));
+  background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
+  -webkit-box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+          box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+  border: none;
+  color: #ffffff;
+  border-radius: 10px;
+  margin-top: 10px;
+  height: 30px;
+  width: 120px;
   margin: 0 10px;
+}
+
+.App .main .control-content .control-event .control-info .delete-btn {
+  width: 100px !important;
 }
 
 .App .main .control-content .control-event .control-info .event-name {
@@ -313,6 +328,36 @@
 
 .App .main .control-content .control-event .control-steps.open {
   display: block;
+}
+
+.App .main .control-content .control-event .control-steps .to-do {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 20px;
+  height: 24px;
+}
+
+.App .main .control-content .control-event .control-steps .to-do .done {
+  height: 24px;
+  width: 24px;
+  background-image: url("./Components/ToDo/done.svg");
+}
+
+.App .main .control-content .control-event .control-steps .to-do .notDone {
+  height: 24px;
+  width: 24px;
+  background-image: url("./Components/ToDo/notDone.svg");
 }
 
 .App .authorization {
@@ -357,14 +402,15 @@
   -webkit-box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
           box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
   border: none;
+  color: #ffffff;
+  border-radius: 10px;
+  margin-top: 10px;
   height: 40px;
   font-size: 14px;
   font-weight: 400;
   margin-top: 10px;
   margin-bottom: 10px;
   width: 180px;
-  color: #ffffff;
-  border-radius: 10px;
 }
 
 .App .authorization h2 {

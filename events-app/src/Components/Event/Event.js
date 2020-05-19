@@ -22,6 +22,8 @@ function Event ({event, steps, onStepsOpen, onCheck} ) {
     else {return number;}
   }
 
+  
+
   return (
         <div className="control-event" >
               <div className="control-info" onClick={onStepsOpen}>
@@ -30,13 +32,13 @@ function Event ({event, steps, onStepsOpen, onCheck} ) {
                 <div className="percent">{event.percent}</div>
                 <div className="buttons">
                 <button>Редактировать</button>
-                <button>Удалить</button>
+                <button className="delete-btn">Удалить</button>
               </div>
               </div>
               <div className={event.open ? 'control-steps open' : 'control-steps'}>
                 {
-                 steps.map((step, i) =>  
-                  <ToDo step={step} key={i} onCheck={onCheck} />
+                 steps.map((step, j) =>  
+                  <ToDo step={step} key={j} onCheck={onCheck} presentDate={presentDate} onCheck={onCheck} />
                   )
                 }
 

@@ -1,0 +1,8 @@
+@mixin button-style() {
+    background: linear-gradient(270deg, #FC858B 0%, #F87C96 100%);
+    box-shadow: -1px 3px 10px 0px rgba(151, 53, 80, 0.51);
+    border: none;
+    color: #ffffff;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
