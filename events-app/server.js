@@ -110,7 +110,7 @@ io.on("connection", function(socket){
     socket.on("getStepsInfo", async (eventData)=>{
         try {
             const {eventName, eventDate} = eventData; 
-            let sqlQuery = `SELECT stepName, stepDate FROM steps WHERE eventName="${eventName}" AND eventDate="${eventDate}"`;
+            let sqlQuery = `SELECT stepName, stepDate, eventName FROM steps WHERE eventName="${eventName}" AND eventDate="${eventDate}"`;
             console.log(sqlQuery);
             let [stepsInfo] = await connection.execute(sqlQuery);
             socket.emit("$getStepsInfo", stepsInfo); 
@@ -118,6 +118,23 @@ io.on("connection", function(socket){
         catch(err){
           console.log(err);
           socket.emit("$getStepsInfo", false);
+        }
+    });
+
+    socket.on("changePercent", async(data)=>{
+        try {
+            const {percent, name} = data;
+            console.log(data);
+            let sqlQuery1 = `INSERT INTO events VALUES("${percent}") WHERE name="${name}"`;
+            let result = await connection.execute(sqlQuery1);
+            if (result[0].warningStatus===0) {
+                socket.emit("$changePercent", true);
+                return;
+            }
+            socket.emit("$changePercent", false);
+        }
+        catch(err) {
+            console.log(err);
         }
     });
 

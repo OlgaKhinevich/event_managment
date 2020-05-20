@@ -45,7 +45,6 @@ class Control extends React.Component {
           this.setState(
             this.state.steps = stepsInfo 
           )
-          console.log(this.state.steps);
       }
       catch(err) {
         console.log(err);
@@ -84,17 +83,36 @@ class Control extends React.Component {
     else {return number;}
   }
 
-  onCheck = (e, index) => {
-    const value = e.target.value;
+ doStep = (index) => {
     this.setState(this.state.steps.map((step, i) => {
       if (i === index) {
-        step.isDone = value
-      } else {
-        step.isDone = false;
-      }
+        step.isDone = !step.isDone
+      } 
     }))
-    console.log(this.state.steps)
+    this.changePercent(index);
   }
+
+  changePercent = (stepIndex) => {
+    let p = 100/this.state.steps.length; 
+    if(this.state.steps[stepIndex].isDone) {
+      this.setState(this.state.events.map((event) => {
+        if (this.state.steps[stepIndex].eventName === event.name) {
+          event.percent += p
+          socket.emit("changePercent", {
+            percent: event.percent,
+            name: event.name
+          });
+        }
+      })) 
+    }
+    socket.once("$changePercent", (status)=>{
+        if(status) {
+            alert("Процент подготовки успешно обновлен!");
+            return;
+        } alert("Ошибка при обновлении процента подготовки!");
+    });
+  }
+
 
   render() {
       const {events, steps} = this.state;
@@ -102,7 +120,13 @@ class Control extends React.Component {
         <div className="control-content">
           <h2>Контроль подготовки к мероприятию</h2>
           {events.map((event, i) => 
-            <Event event={event} steps={steps} key={i} onStepsOpen={this.onStepsOpen.bind(this, i)} onCheck={this.onCheck}/>
+            <Event 
+            event={event} 
+            steps={steps} 
+            key={i} 
+            onStepsOpen={this.onStepsOpen.bind(this, i)} 
+            doStep={this.doStep} 
+            />
           )}
         </div> 
       )

@@ -2,13 +2,12 @@ import React from 'react';
 import done from './done.png';
 import notDone from './notDone.png'
 
-const ToDo = ({step, presentDate, onCheck}) => {
+const ToDo = ({step, presentDate, doStep}) => {
 
   return (
-        <div className="to-do" >
+        <div className="to-do" onClick={doStep}>
             {step.stepName+'  '+presentDate(step.stepDate) +'  '} 
             <img src={step.isDone ? done : notDone} alt="check"></img>
-            {/*<div classname={step.isDone ? 'done' : 'notDone'}></div>*/}
         </div>
       )
   }

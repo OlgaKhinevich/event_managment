@@ -190,17 +190,12 @@
                             flex-direction: row;
                             align-items: center;
                             justify-content: space-between;
-                            margin: 0 20px;
-                            height: 24px;
-                            .done {
-                                height: 24px;
-                                width: 24px;
-                                background-image: url('./Components/ToDo/done.svg');
-                            }
-                            .notDone {
-                                height: 24px;
-                                width: 24px;
-                                background-image: url('./Components/ToDo/notDone.svg');
+                            margin: 0 40px;
+                            height: 34px;
+                            padding: 5px;
+                            img {
+                                height: 25px;
+                                width: 25px;
                             }
                     }
                 }

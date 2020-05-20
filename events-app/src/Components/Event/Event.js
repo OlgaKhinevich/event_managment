@@ -1,7 +1,7 @@
 import React from 'react';
 import ToDo from '../ToDo/ToDo';
 
-function Event ({event, steps, onStepsOpen, onCheck} ) {
+function Event ({event, steps, onStepsOpen, doStep} ) {
   
   const presentDate = (serverDateString) => {
     let serverDate = new Date(serverDateString);
@@ -24,6 +24,8 @@ function Event ({event, steps, onStepsOpen, onCheck} ) {
 
   
 
+  
+
   return (
         <div className="control-event" >
               <div className="control-info" onClick={onStepsOpen}>
@@ -38,7 +40,7 @@ function Event ({event, steps, onStepsOpen, onCheck} ) {
               <div className={event.open ? 'control-steps open' : 'control-steps'}>
                 {
                  steps.map((step, j) =>  
-                  <ToDo step={step} key={j} onCheck={onCheck} presentDate={presentDate} onCheck={onCheck} />
+                  <ToDo step={step} key={j} presentDate={presentDate} doStep={()=>doStep(step.stepId)} />
                   )
                 }
 
