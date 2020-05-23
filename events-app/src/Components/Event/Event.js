@@ -1,5 +1,6 @@
 import React from 'react';
 import ToDo from '../ToDo/ToDo';
+import {Link} from 'react-router-dom';
 
 function Event ({event, steps, onStepsOpen, doStep} ) {
   
@@ -33,7 +34,7 @@ function Event ({event, steps, onStepsOpen, doStep} ) {
                 <div className="event-date">{presentDate(event.date)}</div>
                 <div className="percent">{event.percent}</div>
                 <div className="buttons">
-                <button>Редактировать</button>
+                <button><Link to="/print">Печать</Link></button>
                 <button className="delete-btn">Удалить</button>
               </div>
               </div>

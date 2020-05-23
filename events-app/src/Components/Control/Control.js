@@ -17,6 +17,7 @@ class Control extends React.Component {
     this.getEventInfo();
   }
 
+  // получение данных о мероприятиях
   getEventInfo = () => {
     socket.once("$getEventInfo", (eventsInfo)=>{
       try {
@@ -35,6 +36,7 @@ class Control extends React.Component {
     socket.emit("getEventInfo");
   }
 
+  // получения данных об этапах
   getStepsInfo = (index) => {
     socket.once("$getStepsInfo", (stepsInfo)=>{
       try {
@@ -53,18 +55,18 @@ class Control extends React.Component {
     socket.emit("getStepsInfo", {eventName: this.state.events[index].name, eventDate: this.state.events[index].date});
   }
 
+  // открытие мероприятия
   onStepsOpen = (index)=>{
+    this.getStepsInfo(index);
     this.setState(this.state.events.map((event, i) => {
       if (i === index) {
-        this.getStepsInfo(index);
         event.open = !event.open
-      } else {
-        event.open = false;
-      }
+      } 
       return event;
     }))
   }
 
+  // преобразование даты
   changeDate = (serverDateString) => {
     let serverDate = new Date(serverDateString);
     let day1 = serverDate.getDate();
@@ -76,6 +78,7 @@ class Control extends React.Component {
     return date;  
   }
 
+  // добавление нулей к дате
   addZeros = (number) => {
     if(number<10) {
         return "0" + number;
@@ -83,36 +86,60 @@ class Control extends React.Component {
     else {return number;}
   }
 
+ // выполнение этапа подготовки
  doStep = (index) => {
-    this.setState(this.state.steps.map((step, i) => {
+  socket.once("$doStep", (status)=>{
+    if(status) {
+        return;
+    } alert("Ошибка при изменении этапа!");
+  });
+  this.setState(this.state.steps.map((step, i) => {
       if (i === index) {
-        step.isDone = !step.isDone
-      } 
-    }))
-    this.changePercent(index);
-  }
-
-  changePercent = (stepIndex) => {
-    let p = 100/this.state.steps.length; 
-    if(this.state.steps[stepIndex].isDone) {
-      this.setState(this.state.events.map((event) => {
-        if (this.state.steps[stepIndex].eventName === event.name) {
-          event.percent += p
-          socket.emit("changePercent", {
-            percent: event.percent,
-            name: event.name
-          });
+        if(step.isDone == 1) {
+          step.isDone = 0;
         }
-      })) 
-    }
-    socket.once("$changePercent", (status)=>{
-        if(status) {
-            alert("Процент подготовки успешно обновлен!");
-            return;
-        } alert("Ошибка при обновлении процента подготовки!");
-    });
-  }
+        else if(step.isDone == 0) {
+          step.isDone = 1;
+        }
+      } 
+      socket.emit("doStep", {
+        isDone: step.isDone,
+        stepName: step.stepName
+      });    
+  }))   
+  console.log(this.state.steps); 
+  this.changePercent(index);
+}
 
+// изменение процента подготовки
+changePercent = (stepIndex) => {
+  let p = 100/this.state.steps.length; 
+  socket.once("$changePercent", (status)=>{
+    if(status) {
+      return;
+    } alert("Ошибка при обновлении процента подготовки!");
+  });
+   
+  this.setState(this.state.events.map((event) => {
+    if (this.state.steps[stepIndex].isDone && this.state.steps[stepIndex].eventName === event.name) {
+      event.percent = event.percent + p;
+      socket.emit("changePercent", {
+        percent: event.percent,
+        name: event.name,
+        date: event.date
+      });
+    }
+    if (!this.state.steps[stepIndex].isDone && this.state.steps[stepIndex].eventName === event.name) {
+      event.percent = event.percent - p;
+      socket.emit("changePercent", {
+        percent: event.percent,
+        name: event.name,
+        date: event.date
+      });
+    }
+    
+  })) 
+}
 
   render() {
       const {events, steps} = this.state;

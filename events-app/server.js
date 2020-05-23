@@ -107,10 +107,11 @@ io.on("connection", function(socket){
         }
     });
 
+    // получение информации об этапах подготовки
     socket.on("getStepsInfo", async (eventData)=>{
         try {
             const {eventName, eventDate} = eventData; 
-            let sqlQuery = `SELECT stepName, stepDate, eventName FROM steps WHERE eventName="${eventName}" AND eventDate="${eventDate}"`;
+            let sqlQuery = `SELECT stepName, stepDate, eventName, isDone FROM steps WHERE eventName="${eventName}" AND eventDate="${eventDate}"`;
             console.log(sqlQuery);
             let [stepsInfo] = await connection.execute(sqlQuery);
             socket.emit("$getStepsInfo", stepsInfo); 
@@ -121,11 +122,11 @@ io.on("connection", function(socket){
         }
     });
 
+    // изменение процента подготовки мероприятия
     socket.on("changePercent", async(data)=>{
         try {
-            const {percent, name} = data;
-            console.log(data);
-            let sqlQuery1 = `INSERT INTO events VALUES("${percent}") WHERE name="${name}"`;
+            const {percent, name, date} = data;
+            let sqlQuery1 = `UPDATE events SET percent="${percent}" WHERE name="${name}" AND date="${date}"`;
             let result = await connection.execute(sqlQuery1);
             if (result[0].warningStatus===0) {
                 socket.emit("$changePercent", true);
@@ -138,10 +139,27 @@ io.on("connection", function(socket){
         }
     });
 
+    // выполнение этапа подготовки
+    socket.on("doStep", async(data)=>{
+        try {
+            const {isDone, stepName} = data;
+            let sqlQuery1 = `UPDATE steps SET isDone="${isDone}" WHERE stepName="${stepName}"`;
+            let result = await connection.execute(sqlQuery1);
+            if (result[0].warningStatus===0) {
+                socket.emit("$doStep", true);
+                return;
+            }
+            socket.emit("$doStep", false);
+        }
+        catch(err) {
+            console.log(err);
+        }
+    });
+
     // получение информации для графика мероприятий
     socket.on("getChartData", async ()=>{
         try {
-        let sqlQuery = `SELECT name, date, percent, prepDate FROM events`;
+        let sqlQuery = `SELECT name, prepDate, date, percent FROM events`;
         let [chartData] = await connection.execute(sqlQuery);
         socket.emit("$getChartData", chartData); 
         }

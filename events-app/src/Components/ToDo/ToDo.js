@@ -7,7 +7,7 @@ const ToDo = ({step, presentDate, doStep}) => {
   return (
         <div className="to-do" onClick={doStep}>
             {step.stepName+'  '+presentDate(step.stepDate) +'  '} 
-            <img src={step.isDone ? done : notDone} alt="check"></img>
+            <img src={step.isDone == 1 ? done : notDone} alt="check"></img>
         </div>
       )
   }
